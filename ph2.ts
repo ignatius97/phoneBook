@@ -8,6 +8,7 @@ const rl = readline.createInterface({
 })
 class phoneBook{
     phone_book = [];
+    
 
     addContact(name,phone){
             fs.readFile('phonebook.json', (err, data) => {
@@ -68,7 +69,9 @@ class phoneBook{
             if (err) throw err;
             this.phone_book = JSON.parse(data);
             const nameIndex = this.phone_book.map(a => a.name).indexOf(nameInput)
-            if(this.phone_book.includes(nameInput)){
+            const nameValue = this.phone_book.map(a => a.name)
+            
+            if(nameValue.includes(nameInput)){
                 console.log(this.phone_book[nameIndex]);
                 ask();
             }
@@ -98,13 +101,27 @@ class phoneBook{
         });
         return this.phone_book
     }
+
+
+testing(){
+        fs.readFile('phonebook.json', (err, data) => {
+            if (err) throw err;
+            this.phone_book = JSON.parse(data);
+            ask()
+            data = JSON.stringify(this.phone_book)
+            fs.writeFile("phonebook.json" ,data, (err)=>{
+                if(err) throw console.log(err);
+            });
+        });
+        return this.phone_book
+    }
 }
 
 var question = [
     {
       type: 'confirm',
       name: 'askAgain',
-      message: 'Do you want contiue (just hit enter for YES)?',
+      message: 'Do you want to contiue (just hit enter for YES)?',
       default: true,
     }
   ];
@@ -194,6 +211,10 @@ function viewAll(){
     personcart.viewAllContacts();
 }
 
+function test(){
+  personcart.testing();
+}
+
 
 
   function MenuList(){
@@ -217,10 +238,14 @@ function viewAll(){
               console.log('nooooo'); 
           }
       })
+      
   }
 
   MenuList()
 
+  test()
+
+  module.exports = test;
 
 
 

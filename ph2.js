@@ -22,6 +22,7 @@ var phoneBook = /** @class */ (function () {
                 phone: phone
             });
             console.log(_this.phone_book);
+            ask();
             data = JSON.stringify(_this.phone_book);
             fs.writeFile("phonebook.json", data, function (err) {
                 if (err)
@@ -39,7 +40,9 @@ var phoneBook = /** @class */ (function () {
             var nameIndex = _this.phone_book.map(function (a) { return a.name; }).indexOf(delNameInput);
             console.log(nameIndex);
             _this.phone_book.splice(nameIndex, 1);
+            console.log('contact has been deleted');
             console.log(_this.phone_book);
+            ask();
             data = JSON.stringify(_this.phone_book);
             fs.writeFile("phonebook.json", data, function (err) {
                 if (err)
@@ -57,6 +60,7 @@ var phoneBook = /** @class */ (function () {
             var nameIndex = _this.phone_book.map(function (a) { return a.name; }).indexOf(oldNameInput);
             _this.phone_book[nameIndex] = { name: name, phone: phone };
             console.log(_this.phone_book);
+            ask();
             data = JSON.stringify(_this.phone_book);
             fs.writeFile("phonebook.json", data, function (err) {
                 if (err)
@@ -72,11 +76,14 @@ var phoneBook = /** @class */ (function () {
                 throw err;
             _this.phone_book = JSON.parse(data);
             var nameIndex = _this.phone_book.map(function (a) { return a.name; }).indexOf(nameInput);
-            if (_this.phone_book.includes(nameInput)) {
+            var nameValue = _this.phone_book.map(function (a) { return a.name; });
+            if (nameValue.includes(nameInput)) {
                 console.log(_this.phone_book[nameIndex]);
+                ask();
             }
             else {
                 console.log("Name not found");
+                ask();
             }
             _this.phone_book[nameIndex];
             data = JSON.stringify(_this.phone_book);
@@ -214,3 +221,4 @@ function MenuList() {
     });
 }
 MenuList();
+module.exports = MenuList;
